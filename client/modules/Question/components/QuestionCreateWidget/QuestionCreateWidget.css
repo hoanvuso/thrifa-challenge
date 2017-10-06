@@ -50,3 +50,7 @@ textarea {
 .appear {
   display: block;
 }
+
+.mdb-select{
+  display: block !important;
+}

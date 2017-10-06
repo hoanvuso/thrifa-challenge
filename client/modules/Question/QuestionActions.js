@@ -20,6 +20,8 @@ export function addQuestionRequest(question) {
         title: question.title,
         subTitle: question.subTitle,
         questionType: question.questionType,
+        desiredAnswer: question.desiredAnswer,
+        selections: question.selections,
       },
     }).then(res => dispatch(addQuestion(res.question)));
   };

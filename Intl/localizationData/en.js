@@ -34,6 +34,7 @@ export default {
     createNewQuestion: 'Create new question',
     questionTitle: 'Question Title',
     questionSubTitle: 'Question subtitle',
+    questionDesiredAnswer: 'Desired Answer',
     questionType: 'Question Type',
     
   },

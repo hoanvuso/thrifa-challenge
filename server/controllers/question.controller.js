@@ -1,5 +1,4 @@
 import Question from '../models/question';
-import Selection from '../models/selection';
 import cuid from 'cuid';
 import slug from 'limax';
 import sanitizeHtml from 'sanitize-html';
@@ -28,21 +27,31 @@ export function getQuestions(req, res) {
 export function addQuestion(req, res) {
   if (!req.body.question.title 
         || !req.body.question.subTitle 
-        || !req.body.question.questionType) {
+        || !req.body.question.questionType
+        || !req.body.question.desiredAnswer) {
     res.json({status: 403});
   }
 
-  const newQuestion = new Question(req.body.question);
+  var title = req.body.question.title;
+  var subTitle = req.body.question.subTitle;
+  var questionType = req.body.question.questionType;
+  var desiredAnswer = req.body.question.desiredAnswer;
+  var selections = req.body.question.selections;
 
-  // Let's sanitize inputs
-  newQuestion.title = sanitizeHtml(newQuestion.title);
-  newQuestion.subTitle = sanitizeHtml(newQuestion.subTitle);
-  newQuestion.cuid = cuid();
-  
+  const newQuestion = new Question({
+      title: sanitizeHtml(title),
+      subTitle: sanitizeHtml(subTitle),
+      questionType: questionType,
+      desiredAnswer: desiredAnswer,
+      selections: selections,
+      cuid: cuid()
+  });
+
   newQuestion.save((err, saved) => {
     if (err) {
       res.json({status: 500, error: err});
     }
+
     res.json({ question: saved });
   });
 }

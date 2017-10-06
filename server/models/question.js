@@ -6,7 +6,11 @@ const questionSchema = new Schema({
 	title: { type: 'String', required: true },
 	subTitle: { type: 'String', required: true },
 	questionType: {type: 'String', enum: ['one-choice', 'multi-choice'], default: 'one-choice', required: true},
- 	desiredAnswer: { type: [Schema.Types.ObjectId], ref: 'Selection', required: false },
+
+ 	desiredAnswer: { type: 'String', required: false, trim: true },
+
+ 	selections: [{ type: 'String', required: false, trim: true }],
+  	
   	dateAdded: { type: 'Date', default: Date.now, required: false },
 });
 
