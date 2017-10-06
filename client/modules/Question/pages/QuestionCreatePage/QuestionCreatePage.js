@@ -95,6 +95,18 @@ class QuestionCreatePage extends Component {
                     itemValue=""
                   />
 
+                  <SelectionCreateItem
+                    itemKey="selectionItem3"
+                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
+                    itemValue=""
+                  />
+
+                  <SelectionCreateItem
+                    itemKey="selectionItem4"
+                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
+                    itemValue=""
+                  />
+
                   <div className="text-center mb-3">
                       <button type="button" 
                               className="btn blue-gradient btn-block btn-rounded z-depth-1a"
