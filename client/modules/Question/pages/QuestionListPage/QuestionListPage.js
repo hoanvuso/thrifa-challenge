@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Import Components
 import QuestionList from '../../components/QuestionList';
-import QuestionCreateWidget from '../../components/QuestionCreateWidget/QuestionCreateWidget';
+// import QuestionCreateWidget from '../../components/QuestionCreateWidget/QuestionCreateWidget';
 
 // Import Actions
 import { addQuestionRequest, fetchQuestions, deleteQuestionRequest } from '../../QuestionActions';
@@ -32,7 +32,6 @@ class QuestionListPage extends Component {
   render() {
     return (
       <div>
-        <QuestionCreateWidget addQuestion={this.handleAddQuestion} showAddQuestion={this.props.showAddQuestion} />
         <QuestionList handleDeleteQuestion={this.handleDeleteQuestion} questions={this.props.questions} />
       </div>
     );
