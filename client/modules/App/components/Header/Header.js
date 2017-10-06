@@ -11,24 +11,27 @@ export function Header(props, context) {
   );
 
   return (
-    <div className={styles.header}>
-      <div className={styles['language-switcher']}>
-        <ul>
-          <li><FormattedMessage id="switchLanguage" /></li>
-          {languageNodes}
-        </ul>
-      </div>
-      <div className={styles.content}>
-        <h1 className={styles['site-title']}>
-          <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
-        </h1>
-        {
-          context.router.isActive('/', true)
-            ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-            : null
-        }
-      </div>
-    </div>
+    <nav className="navbar navbar-expand-lg navbar-dark indigo">
+        <Link to="/" className="navbar-brand" ><FormattedMessage id="siteTitle" /></Link>
+
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    <Link to="/" className="nav-link" >
+                      View <span className="sr-only">(current)</span>
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/questions/create" className="nav-link" >
+                      Create
+                    </Link>
+                </li>
+            </ul>
+        </div>
+    </nav>
   );
 }
 
@@ -37,7 +40,7 @@ Header.contextTypes = {
 };
 
 Header.propTypes = {
-  toggleAddPost: PropTypes.func.isRequired,
+  toggleAddQuestion: PropTypes.func.isRequired,
   switchLanguage: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
 };

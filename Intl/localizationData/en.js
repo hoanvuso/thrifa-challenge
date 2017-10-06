@@ -1,7 +1,7 @@
 export default {
   locale: 'en',
   messages: {
-    siteTitle: 'MERN Starter Blog',
+    siteTitle: 'Thrifa Challenge',
     addPost: 'Add Post',
     switchLanguage: 'Switch Language',
     twitterMessage: 'We are on Twitter',
@@ -27,5 +27,14 @@ export default {
     	  =1 {has # comment}
     	  other {has # comments}
     	} as of {date}`,
+
+    // Question Module
+    addQuestion: 'Add Question',
+    deleteQuestion: 'Delete Question',
+    createNewQuestion: 'Create new question',
+    questionTitle: 'Question Title',
+    questionSubTitle: 'Question subtitle',
+    questionType: 'Question Type',
+    
   },
 };
