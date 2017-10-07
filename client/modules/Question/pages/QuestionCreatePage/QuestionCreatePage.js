@@ -21,10 +21,11 @@ import { addQuestionRequest } from '../../QuestionActions';
 class QuestionCreatePage extends Component {
   componentWillMount() {
     this.questionSelections = [
-      {itemKey: "selectionItem1", itemValue: ""},
-      {itemKey: "selectionItem2", itemValue: ""},
+      {itemKey: "selectionItem1", itemValue: "", isCorrectAnswer: false},
+      {itemKey: "selectionItem2", itemValue: "", isCorrectAnswer: false},
     ];
     this.currentOffset = 3;
+    this.questionType = 'one-choice';
     console.log(this.questionSelections);
   };
 
@@ -32,25 +33,41 @@ class QuestionCreatePage extends Component {
     const titleRef = this.refs.title;
     const subTitleRef = this.refs.subTitle;
     const questionTypeRef = this.refs.questionType;
-    const desiredAnswerRef = this.refs.desiredAnswer;
     
     if (subTitleRef.value && titleRef.value && questionTypeRef.value) {
-      this.handleAddQuestion(subTitleRef.value, titleRef.value, questionTypeRef.value, desiredAnswerRef.value);
+      this.handleAddQuestion(subTitleRef.value, titleRef.value, questionTypeRef.value);
       subTitleRef.value = titleRef.value = questionTypeRef.value = '';
     }
   };
 
-  handleAddQuestion = ( title, subTitle, questionType, desiredAnswer) => {
+  handleAddQuestion = ( title, subTitle, questionType) => {
     var selections = [];
     this.questionSelections.map(selection => selections.push(selection.itemValue));
 
-    console.log("handleAddQuestion", this.questionSelections, selections);
+    var desiredAnswerArr = [];
+    for (var index in this.questionSelections) {
+      if (this.questionSelections[index].isCorrectAnswer) {
+        desiredAnswerArr.push(this.questionSelections[index].itemValue);
+      }
+    }
+
+    var desiredAnswer = desiredAnswerArr.join('&');  
+
+    console.log("handleAddQuestion", this.questionSelections, selections, desiredAnswer);
     
     this.props
         .dispatch(addQuestionRequest({ title, subTitle, questionType, desiredAnswer, selections }))
         .then((onSuccess, onFailure) => {
             browserHistory.push('/');
         });
+  };
+
+  onChangeQuestionType = () => {
+    this.questionType = this.refs.questionType.value;
+    this.questionSelections.map(selection => {
+      selection.isCorrectAnswer = false;
+    });
+    this.forceUpdate();
   };
 
   handleSelectionCreateItemChange = (key, value) => {
@@ -60,6 +77,29 @@ class QuestionCreatePage extends Component {
       }
     });
     console.log("handleSelectionCreateItemChange", this.questionSelections);
+  };
+
+  handleSelectCorrectAnswer = (key) => {
+    const questionTypeRef = this.refs.questionType;
+    if (questionTypeRef.value == 'one-choice') {
+      this.questionSelections.map(selection => {
+        if (selection.itemKey == key) {
+          selection.isCorrectAnswer = true;
+        }
+        else {
+          selection.isCorrectAnswer = false;
+        }
+      });
+    } 
+    else {
+      this.questionSelections.map(selection => {
+        if (selection.itemKey == key) {
+          selection.isCorrectAnswer = !selection.isCorrectAnswer;
+        }
+      });
+    }
+    console.log("handleSelectCorrectAnswer", this.questionSelections);
+    this.forceUpdate();
   };
 
   handleDeleteSelection = (key) => {
@@ -77,6 +117,7 @@ class QuestionCreatePage extends Component {
     this.questionSelections.push({
       itemKey: itemKey,
       itemValue: "",
+      isCorrectAnswer: false,
     });
     this.currentOffset++;
     this.forceUpdate();
@@ -94,7 +135,9 @@ class QuestionCreatePage extends Component {
                   </div>
 
                   <div className="md-form pb-3">
-                      <select className={styles['mdb-select']} ref="questionType">
+                      <select className={styles['mdb-select']} 
+                              ref="questionType"
+                              onChange={this.onChangeQuestionType}>
                           <option value="one-choice">Selection Choice</option>
                           <option value="multi-choice">Multiple Choice</option>
                       </select>
@@ -112,16 +155,12 @@ class QuestionCreatePage extends Component {
                               ref="subTitle" />
                   </div>
 
-                  <div className="md-form pb-3">
-                      <input placeholder={this.props.intl.messages.questionDesiredAnswer} 
-                              type="text" className="form-control" id="field-question-desired-answer"
-                              ref="desiredAnswer" />
-                  </div>
-
                   <SelectionCreateListItem 
                     handleSelectionCreateItemChange={this.handleSelectionCreateItemChange} 
+                    handleSelectCorrectAnswer={this.handleSelectCorrectAnswer} 
                     handleDeleteSelection={this.handleDeleteSelection} 
-                    selections={this.questionSelections} />
+                    selections={this.questionSelections}
+                    questionType={this.questionType} />
 
                   <div className="text-left mb-3">
                     <button type="button" className="btn btn-flat btn-md" onClick={this.handleAddSelection}>

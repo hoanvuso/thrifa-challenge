@@ -14,7 +14,10 @@ function SelectionCreateListItem(props) {
           <SelectionCreateItem
             itemKey={selection.itemKey}
             itemValue={selection.itemValue}
+            isCorrectAnswer={selection.isCorrectAnswer}
+            questionType={props.questionType}
             handleSelectionCreateItemChange={props.handleSelectionCreateItemChange}
+            handleSelectCorrectAnswer={props.handleSelectCorrectAnswer}
             handleDeleteSelection={props.handleDeleteSelection}
           />
         ))
@@ -27,9 +30,12 @@ SelectionCreateListItem.propTypes = {
   selections: PropTypes.arrayOf(PropTypes.shape({
     itemKey: PropTypes.string.isRequired,
     itemValue: PropTypes.string,
+    isCorrectAnswer: PropTypes.bool,
   })).isRequired,
+  questionType: PropTypes.string.isRequired,
   handleDeleteSelection: PropTypes.func.isRequired,
   handleSelectionCreateItemChange: PropTypes.func.isRequired,
+  handleSelectCorrectAnswer: PropTypes.func.isRequired,
 };
 
 export default SelectionCreateListItem;
