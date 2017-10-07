@@ -12,7 +12,7 @@ class SelectionCreateItem extends Component {
     });
 
     const { handleSelectionCreateItemChange, itemKey } = this.props;
-    handleSelectionCreateItemChange(itemKey, this.state.itemValue);
+    handleSelectionCreateItemChange(itemKey, event.target.value);
   };
 
   onSelectCorrectAnswer = (event) => {
@@ -29,7 +29,6 @@ class SelectionCreateItem extends Component {
     const { itemKey, itemValue, isCorrectAnswer, questionType } = this.props;
 
     var checked = isCorrectAnswer ? "checked" : false;
-    console.log("checked", checked, isCorrectAnswer);
 
     var correctAnswerInput = (
       <input type="radio" name="correctAnswer" id={itemKey} 

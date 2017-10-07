@@ -37,7 +37,6 @@ export function addQuestions(questions) {
 export function fetchQuestions() {
   return (dispatch) => {
     return callApi('questions').then(res => {
-      console.log(res.questions);
       dispatch(addQuestions(res.questions));
     });
   };

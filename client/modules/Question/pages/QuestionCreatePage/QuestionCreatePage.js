@@ -26,7 +26,6 @@ class QuestionCreatePage extends Component {
     ];
     this.currentOffset = 3;
     this.questionType = 'one-choice';
-    console.log(this.questionSelections);
   };
 
   addQuestion = () => {
@@ -52,8 +51,6 @@ class QuestionCreatePage extends Component {
     }
 
     var desiredAnswer = desiredAnswerArr.join('&');  
-
-    console.log("handleAddQuestion", this.questionSelections, selections, desiredAnswer);
     
     this.props
         .dispatch(addQuestionRequest({ title, subTitle, questionType, desiredAnswer, selections }))
@@ -76,7 +73,6 @@ class QuestionCreatePage extends Component {
         selection.itemValue = value;
       }
     });
-    console.log("handleSelectionCreateItemChange", this.questionSelections);
   };
 
   handleSelectCorrectAnswer = (key) => {
@@ -98,7 +94,6 @@ class QuestionCreatePage extends Component {
         }
       });
     }
-    console.log("handleSelectCorrectAnswer", this.questionSelections);
     this.forceUpdate();
   };
 
@@ -108,7 +103,6 @@ class QuestionCreatePage extends Component {
         this.questionSelections.splice(index, 1);
       }
     }
-    console.log("handleDeleteSelection", this.questionSelections);
     this.forceUpdate();
   };
 
@@ -135,7 +129,7 @@ class QuestionCreatePage extends Component {
                   </div>
 
                   <div className="md-form pb-3">
-                      <select className="custom-select" 
+                      <select className={[styles['mdb-select'], 'custom-select'].join(' ')} 
                               ref="questionType"
                               onChange={this.onChangeQuestionType}>
                           <option value="one-choice">Selection Choice</option>

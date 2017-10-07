@@ -14,7 +14,7 @@ export function getQuestions(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-    res.json({ questions });
+    res.json({ status: 200, questions });
   });
 }
 
@@ -52,7 +52,7 @@ export function addQuestion(req, res) {
       res.json({status: 500, error: err});
     }
 
-    res.json({ question: saved });
+    res.json({status: 200, question: saved });
   });
 }
 
@@ -67,7 +67,7 @@ export function getQuestion(req, res) {
     if (err) {
       res.json({status: 500, error: err});
     }
-    res.json({ question });
+    res.json({status: 200, question });
   });
 }
 

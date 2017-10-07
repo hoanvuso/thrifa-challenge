@@ -24,8 +24,6 @@ class QuestionListItem extends Component {
         isSelected: false,
       });
     });
-
-    console.log("componentWillMount", this.selectionAnswers);
   };
 
   handleSelectItem = (key) => {
@@ -46,8 +44,6 @@ class QuestionListItem extends Component {
         }
       });
     }
-
-    console.log("handleSelectItem", this.selectionAnswers);
   }
 
   handleOnSubmit = (event) => {
@@ -80,7 +76,7 @@ class QuestionListItem extends Component {
               itemType={selection.questionType}
               itemKey={selection.itemKey}
               itemName={selection.itemName}
-              itemValue={selection.title}
+              itemValue={selection.itemValue}
               handleSelectItem={this.handleSelectItem}
             />
           ))
