@@ -7,8 +7,8 @@ class OneChoiceSelectionItem extends Component {
   }
 
   onSelectItem = (event) => {
-    const { handleSelectItem, itemKey, itemValue, itemType } = this.props;
-    handleSelectItem(itemKey, itemValue);
+    const { handleSelectItem, itemKey} = this.props;
+    handleSelectItem(itemKey);
   }
 
   render() {
@@ -17,7 +17,8 @@ class OneChoiceSelectionItem extends Component {
 
     return (
       <div className="form-group">
-          <input type="radio" name={itemName} id={itemKey} />
+          <input type="radio" name={itemName} id={itemKey}
+                onClick={this.onSelectItem.bind(this)} />
           <label htmlFor={itemKey}>{itemValue}</label>
       </div>
     );

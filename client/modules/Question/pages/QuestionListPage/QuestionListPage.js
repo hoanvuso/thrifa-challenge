@@ -32,7 +32,9 @@ class QuestionListPage extends Component {
   render() {
     return (
       <div>
-        <QuestionList handleDeleteQuestion={this.handleDeleteQuestion} questions={this.props.questions} />
+        <QuestionList 
+            handleDeleteQuestion={this.handleDeleteQuestion} 
+            questions={this.props.questions} />
       </div>
     );
   }

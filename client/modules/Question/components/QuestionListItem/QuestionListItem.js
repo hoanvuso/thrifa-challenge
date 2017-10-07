@@ -11,12 +11,61 @@ import styles from './QuestionListItem.css';
 
 class QuestionListItem extends Component {
 
-  handleSelectItem = (key, value) => {
-    this.questionSelections[key] = value;
+  componentWillMount() {
+    this.resultMessage = "";
+    this.questionType = this.props.question.questionType;
+    this.selectionAnswers = [];
+    this.props.question.selections.map((title, key) => {
+      this.selectionAnswers.push({
+        itemType: this.questionType,
+        itemKey: [this.props.question.cuid, key.toString()].join('-'),
+        itemName: [this.props.question.cuid, 'selection'].join('-'),
+        itemValue: title,
+        isSelected: false,
+      });
+    });
+
+    console.log("componentWillMount", this.selectionAnswers);
+  };
+
+  handleSelectItem = (key) => {
+    if (this.questionType == 'one-choice') {
+      this.selectionAnswers.map((selection) => {
+        if (selection.itemKey == key) {
+          selection.isSelected = true;
+        }
+        else {
+          selection.isSelected = false;
+        }
+      });
+    }
+    else {
+      this.selectionAnswers.map((selection) => {
+        if (selection.itemKey == key) {
+          selection.isSelected = !selection.isSelected;
+        }
+      });
+    }
+
+    console.log("handleSelectItem", this.selectionAnswers);
   }
 
   handleOnSubmit = (event) => {
-    console.log(event);
+    var answerArr = [];
+    for (var index in this.selectionAnswers) {
+      if (this.selectionAnswers[index].isSelected) {
+        answerArr.push(this.selectionAnswers[index].itemValue);
+      }
+    }
+
+    var answer = answerArr.join('&');
+    if (answer == this.props.question.desiredAnswer) {
+      this.resultMessage = "Correct Answer.";
+    }
+    else {
+      this.resultMessage = "Incorrect Answer!!!!!";
+    }
+    this.forceUpdate();
   }
 
   renderOneChoiceSelectionItem = () => {
@@ -26,19 +75,20 @@ class QuestionListItem extends Component {
         <p className="text-left mb-4">{this.props.question.subTitle}</p>
 
         {
-          this.props.question.selections.map((title, key) => (
+          this.selectionAnswers.map((selection) => (
             <OneChoiceSelectionItem
-              itemType={this.props.question.questionType}
-              itemKey={[this.props.question.cuid, key.toString()].join('-')}
-              itemName={[this.props.question.cuid, 'selection'].join('-')}
-              itemValue={title}
+              itemType={selection.questionType}
+              itemKey={selection.itemKey}
+              itemName={selection.itemName}
+              itemValue={selection.title}
               handleSelectItem={this.handleSelectItem}
             />
           ))
         }
 
         <div className="text-center">
-            <a href="#" className="btn btn-deep-orange" onClick={this.handleOnSubmit.bind(this)}>Submit</a>
+          <p className="text-left text-danger">{this.resultMessage}</p>
+          <a className="btn btn-deep-orange" onClick={this.handleOnSubmit.bind(this)}>Submit</a>
         </div>
       
       </form>
@@ -64,7 +114,8 @@ class QuestionListItem extends Component {
         }
 
         <div className="text-center">
-            <a href="#" className="btn btn-deep-orange" onClick={this.handleOnSubmit.bind(this)}>Submit</a>
+            <p className="text-left text-danger">{this.resultMessage}</p>
+            <a className="btn btn-deep-orange" onClick={this.handleOnSubmit.bind(this)}>Submit</a>
         </div>
       
       </form>

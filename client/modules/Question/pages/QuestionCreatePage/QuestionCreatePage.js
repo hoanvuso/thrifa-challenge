@@ -135,7 +135,7 @@ class QuestionCreatePage extends Component {
                   </div>
 
                   <div className="md-form pb-3">
-                      <select className={styles['mdb-select']} 
+                      <select className="custom-select" 
                               ref="questionType"
                               onChange={this.onChangeQuestionType}>
                           <option value="one-choice">Selection Choice</option>
