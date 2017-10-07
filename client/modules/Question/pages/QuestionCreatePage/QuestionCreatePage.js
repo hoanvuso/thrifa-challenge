@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 // Import Components
+import SelectionCreateListItem from '../../components/SelectionCreateListItem';
 import SelectionCreateItem from '../../components/SelectionCreateItem/SelectionCreateItem';
 
 // Import Style
@@ -19,7 +20,12 @@ import { addQuestionRequest } from '../../QuestionActions';
 
 class QuestionCreatePage extends Component {
   componentWillMount() {
-    this.questionSelections = {};
+    this.questionSelections = [
+      {itemKey: "selectionItem1", itemValue: ""},
+      {itemKey: "selectionItem2", itemValue: ""},
+    ];
+    this.currentOffset = 3;
+    console.log(this.questionSelections);
   };
 
   addQuestion = () => {
@@ -35,7 +41,11 @@ class QuestionCreatePage extends Component {
   };
 
   handleAddQuestion = ( title, subTitle, questionType, desiredAnswer) => {
-    var selections = Object.values(this.questionSelections);
+    var selections = [];
+    this.questionSelections.map(selection => selections.push(selection.itemValue));
+
+    console.log("handleAddQuestion", this.questionSelections, selections);
+    
     this.props
         .dispatch(addQuestionRequest({ title, subTitle, questionType, desiredAnswer, selections }))
         .then((onSuccess, onFailure) => {
@@ -44,7 +54,32 @@ class QuestionCreatePage extends Component {
   };
 
   handleSelectionCreateItemChange = (key, value) => {
-    this.questionSelections[key] = value;
+    this.questionSelections.map(selection => {
+      if (selection.itemKey == key) {
+        selection.itemValue = value;
+      }
+    });
+    console.log("handleSelectionCreateItemChange", this.questionSelections);
+  };
+
+  handleDeleteSelection = (key) => {
+    for (var index in this.questionSelections) {
+      if (this.questionSelections[index].itemKey == key) {
+        this.questionSelections.splice(index, 1);
+      }
+    }
+    console.log("handleDeleteSelection", this.questionSelections);
+    this.forceUpdate();
+  };
+
+  handleAddSelection = () => {
+    var itemKey = "selectionItem" + this.currentOffset;
+    this.questionSelections.push({
+      itemKey: itemKey,
+      itemValue: "",
+    });
+    this.currentOffset++;
+    this.forceUpdate();
   };
 
   render() {
@@ -83,29 +118,17 @@ class QuestionCreatePage extends Component {
                               ref="desiredAnswer" />
                   </div>
 
-                  <SelectionCreateItem
-                    itemKey="selectionItem1"
-                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
-                    itemValue=""
-                  />
+                  <SelectionCreateListItem 
+                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange} 
+                    handleDeleteSelection={this.handleDeleteSelection} 
+                    selections={this.questionSelections} />
 
-                  <SelectionCreateItem
-                    itemKey="selectionItem2"
-                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
-                    itemValue=""
-                  />
-
-                  <SelectionCreateItem
-                    itemKey="selectionItem3"
-                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
-                    itemValue=""
-                  />
-
-                  <SelectionCreateItem
-                    itemKey="selectionItem4"
-                    handleSelectionCreateItemChange={this.handleSelectionCreateItemChange}
-                    itemValue=""
-                  />
+                  <div className="text-left mb-3">
+                    <button type="button" className="btn btn-flat btn-md" onClick={this.handleAddSelection}>
+                      <i className="fa fa-plus" aria-hidden="true"></i>
+                      Add new answer
+                    </button>
+                  </div>
 
                   <div className="text-center mb-3">
                       <button type="button" 
