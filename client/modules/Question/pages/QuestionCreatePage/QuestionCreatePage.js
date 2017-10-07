@@ -33,9 +33,9 @@ class QuestionCreatePage extends Component {
     const subTitleRef = this.refs.subTitle;
     const questionTypeRef = this.refs.questionType;
     
-    if (subTitleRef.value && titleRef.value && questionTypeRef.value) {
-      this.handleAddQuestion(subTitleRef.value, titleRef.value, questionTypeRef.value);
-      subTitleRef.value = titleRef.value = questionTypeRef.value = '';
+    if (titleRef.value && subTitleRef.value && questionTypeRef.value) {
+      this.handleAddQuestion(titleRef.value, subTitleRef.value, questionTypeRef.value);
+      titleRef.value = subTitleRef.value = questionTypeRef.value = '';
     }
   };
 

@@ -34,7 +34,7 @@ git clone https://github.com/hoanvuso/thrifa-challenge.git thrifa-challenge
 ```
 cd /var/www/thrifa-challenge
 NODE_ENV=development npm install
-PORT=8001 npm run bs
+PORT=8001 NODE_ENV=development npm run bs
 ```
 
 ### Run APP
