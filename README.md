@@ -44,4 +44,11 @@ pm2 delete thrifa-challenge
 PORT=8001 NODE_ENV=production pm2 start index.js -n thrifa-challenge -i 1
 ```
 
+or restart 
+
+```
+pm2 restart thrifa-challenge
+```
+
+
 Run on browser: http://<IP>:8001/
